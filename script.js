@@ -1,24 +1,37 @@
-/* const currentDate = new Date('1999/01/02')
+function init(mathFunction) {
+    var a = 5;
+    var b = 6;
 
-console.log(currentDate);
 
- */
 
-function Book(title, author, year, genre) {
-    this.title = title;
-    this.author = author;
-    this.year = year;
-    this.genre = genre;
-    this.age = function(){
-        const d = new Date()
-        const currentYear = d.getFullYear()
-        return currentYear - this.year
-    }
+    if (a < b){
+    let c = mathFunction(b,a)
+        
+        
+    /*    (function(){
+            var c = b - a;    
+            console.log(c); 
+        }) ();         */
+    } else {
+        let c = mathFunction(a,b)
+   /*      (function(){
+            var c = a - b;
+            console.log(c); 
+        })();
+         */
+        console.log(c);
+    };
+
+
+  /*   console.log(c); */
 }
 
-const myFavoriteBook = new Book('Háború és béke', 'Tolsztoj', 1867, 'Historical novel')
-//console.log(myFavoriteBook.title);
+const initC = (firstNumber, secondNumber) => {
+    return firstNumber - secondNumber;
+}
 
-const mySecondFavoriteBook = new Book('Algebra alapjai', 'Joe Algebra', 1992, 'Sci-fi')
-console.log(mySecondFavoriteBook.age());
+const initD = (firstNumber, secondNumber => {
+    return firstNumber * secondNumber;
+})
 
+init(initD);
