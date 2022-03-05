@@ -1,46 +1,4 @@
-/* function init(mathFunction) {
-    var a = 5;
-    var b = 6;
-
-
-
-    if (a < b){
-    let c = mathFunction(b,a)
-        
-        
-        (function(){
-            var c = b - a;    
-            console.log(c); 
-        }) ();         
-    } else {
-        let c = mathFunction(a,b)
-        (function(){
-            var c = a - b;
-            console.log(c); 
-        })();
-        
-        console.log(c);
-    };
- */
-
-  /*   console.log(c); */
-
-
-/* const initC = (firstNumber, secondNumber) => {
-    return firstNumber - secondNumber;
-}
-
-const initD = (firstNumber, secondNumber => {
-    return firstNumber * secondNumber;
-})
-
-init(initD); */
-
-//form kesztiese, 3 input mezovel , kis css mehet bele (1 gomb legyen benne,) az input mezokre mindegyikre input esemenyt tegyunk ra
-//loggolja ki az értékét az input mezőnek
-//50-kor tali
-
-const formHTML = () => {
+const formHTML = async () => {
     return `
     <form >
             <input id="input1" name="input1" type="text">
@@ -80,11 +38,29 @@ function loadEvent() {
         console.log(event.target.value);
     })
 
-    form.addEventListener("sumbit", function(event){
+    form.addEventListener("submit", function(event){
         event.preventDefault()
         console.log(event.target);
     })
 
+
+    const apiKey = "Ny0bOdOANPLt2GoKu3PaP5K58yzz1Ve2dN54m52b"
+    const requestedDate = "2022-02-22"
+    const apod = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${requestedDate}`)
+
+    const apodJson = await apod.json()
+    console.log(apodJson.explanation);
+
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${requestedDate}`).then(
+        function (apodResponse) {
+            console.log(apodResponse);
+            apodResponse.json().then(
+                function(apodResponseJson) {
+                    console.log(apodResponseJson);
+                }
+            )
+        }
+    )
 
 }
 
