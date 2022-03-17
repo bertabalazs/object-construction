@@ -1,94 +1,83 @@
 function Country(name, short, population, flag, continent) {
-    this.name = name;
-    this.short = short;
-    this.population = population;
-    this.flag = flag;
-    this.continent = continent;
+    this.name = name
+    this.short = short
+    this.population = population
+    this.flag = flag
+    this.continent = continent
 }
 
- //mwnubutton
- const menuButton = () => {
+//Components
+const menuButton = () => {
     return `
-    <button id="menuButton">
+    <button id="menu-btn">
         <svg width="40" height="40">
-            <rect width="20" height="2" />
-            <rect width="20" height="2" />
-            <rect width="20" height="2" />
+            <rect width="20" height="2"/>
+            <rect width="20" height="2"/>
+            <rect width="20" height="2"/>
         </svg>
+        <span>button</span>
     </button>
     `
 }
 
-//Components
 const header = (logo, button) => {
     return `
     <header>
         <a id="logo">${logo}</a>
         ${button()}
-    </header>
-    `;
+    </header>`
 }
 
- const loadEvent = async _ => {
+//Exercise
+const countryCards = (cards) => {
+    return `
+    <div id="cards">
+        ${cards}
+    </div>
+    `
+}
+
+const countryCard = (name, short, population, flag, continent) => {
+    return `
+    <div>
+        <h2>${name}</h2>
+        <h2>${short}</h2>
+        <p>${population}</p>
+        <img src="${flag}"></img>
+        <p>${continent}</p>
+    </div>
+    `
+}
+
+
+
+const loadEvent = async () => { //async mivel egyszerre nem tud végrehajtani dolgokat,
     //Get data
-    const countryRes = await fetch("https://restcountries.com/v3.1/all");
+    const countryRes = await fetch("https://restcountries.com/v3.1/all"); //megvárja a country arr amig vegez a fetch
     const countryArr = await countryRes.json();
-    //console.log(countryArr[0]);
+    // console.log(countryArr[0])
     //Process data
+    //azért kell a letcountries, mert a map az tömbbel tér vissza, ezért bele kell menteni egy másik változóba az eredményt.
     let countries = countryArr.map(function (country) {
-        return new Country(country.name.common, country.cca3, country.population, country.flags.svg, country.continents[0]);
+        return new Country(country.name.common, country.cca3, country.population, country.flags.svg, country.continents[0])
     })
-    console.log(countries);
+    console.log(countries)
+    //rootelement elmentése egy változóba, utána ide hívjuk meg a header-t.a countries stringel
+    const rootElement = document.getElementById("root")
+    rootElement.insertAdjacentHTML('beforeend', header("Countries", menuButton))
 
-    /* const rootElement = document.getElementById("root");
-    rootElement.insertAdjacentHTML('beforeend', header("Countries", menuButton)); */
-
-    const countryCard = (country) => {
-        return `
-        <div class= "card">
-            <h2>${country.name}</h2>
-            <h3>${country.short}</h3>
-            <p>${country.continent}</p>
-            <img src="${country.flag}"></img>
-            <p>${country.population}</p>
-        </div>
-        `;
-    };
-
-   
-
-    const countryCards = (contentHTML) => {
-        return `
-        <section class="country-cards">${contentHTML}</section>
-        `
+    //Exercise
+    let content = ""
+    for (let item of countries) {
+        content += countryCard(item.name, item.short, item.population, item.flag, item.continent)
     }
 
-    // add header html
-    const root = document.querySelector('#root')
-    root.insertAdjacentHTML("beforeend", header('countries', menuButton));
+    rootElement.insertAdjacentHTML('beforeend', countryCards(content))
 
-    //create country html
-    let countryHTML = '';
-    countries.forEach(country => {
-        countryHTML += countryCard(country);
+    const menuButton1 = document.getElementById("menu-btn")
+    menuButton1.addEventListener('click', (event) => {
+        event.target.classList.toggle("clicked")
     })
-
-    //add cards html
-    root.insertAdjacentHTML("beforeend", countryCards(countryHTML))
-
-
-
-    document.getElementById("root").insertAdjacentHTML("beforeend", countryCards);
-
-    const getMenuButton = document.getElementById("menuButton");
-    menuButton.addEventListener("click", (event) => {
-        event.currentTarget.classList.toggle("clicked")
-    })
-
 }
 
-
-
-
-
-window.addEventListener("load", loadEvent)
+window.addEventListener('load', loadEvent)
